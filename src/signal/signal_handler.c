@@ -31,23 +31,16 @@ static void	sig_handler(int signum)
 			rl_redisplay();
 		}
 	}
-	else if (signum == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("  ", 0);
-		rl_redisplay();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
 }
 
 void	init_sighandler(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = sig_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+        sa.sa_handler = sig_handler;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGINT, &sa, NULL);
+        sa.sa_handler = SIG_IGN;
+        sigaction(SIGQUIT, &sa, NULL);
 }
